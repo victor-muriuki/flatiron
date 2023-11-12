@@ -1,23 +1,104 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+
 
 function App() {
+  const initialTransactions = require('./db.json').transactions;
+  //useState to load table
+  const [transactions, setTransactions] = useState(initialTransactions);
+  //usestate  to update transactions
+  const [newTransaction, setNewTransaction] = useState({
+    date: '',
+    description: '',
+    category: '',
+    amount: 0,
+  });
+
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const addTransaction = () => {
+    setTransactions([...transactions, newTransaction]);
+    setNewTransaction({ date: '', description: '', category: '', amount: 0 });
+  };
+//filter description key using seaech input
+  const filteredTransactions = transactions.filter(
+    (transaction) =>
+      transaction.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Transaction App</h1>
+
+      <input
+        type="text"
+        placeholder="Search by description"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredTransactions.map((transaction) => (
+            <tr key={transaction.id}>
+              <td>{transaction.date}</td>
+              <td>{transaction.description}</td>
+              <td>{transaction.category}</td>
+              <td>{transaction.amount}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <h2>Add New Transaction</h2>
+      <div>
+        <label>Date:</label>
+        <input
+          type="text"
+          value={newTransaction.date}
+          onChange={(e) =>
+            setNewTransaction({ ...newTransaction, date: e.target.value })
+          }
+        />
+      </div>
+      <div>
+        <label>Description:</label>
+        <input
+          type="text"
+          value={newTransaction.description}
+          onChange={(e) =>
+            setNewTransaction({ ...newTransaction, description: e.target.value })
+          }
+        />
+      </div>
+      <div>
+        <label>Category:</label>
+        <input
+          type="text"
+          value={newTransaction.category}
+          onChange={(e) =>
+            setNewTransaction({ ...newTransaction, category: e.target.value })
+          }
+        />
+      </div>
+      <div>
+        <label>Amount:</label>
+        <input
+          type="number"
+          value={newTransaction.amount}
+          onChange={(e) =>
+            setNewTransaction({ ...newTransaction, amount: e.target.value })
+          }
+        />
+      </div>
+      <button onClick={addTransaction}>Add Transaction</button>
     </div>
   );
 }

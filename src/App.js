@@ -27,6 +27,11 @@ function App() {
     setSearchTerm(value);
   };
 
+  const handleDelete = (id) => {
+    const updatedTransactions = transactions.filter((transaction) => transaction.id !== id);
+    setTransactions(updatedTransactions);
+  };
+
   const filteredTransactions = transactions.filter(
     (transaction) =>
       transaction.description.toLowerCase().includes(searchTerm.toLowerCase())
@@ -36,7 +41,7 @@ function App() {
     <div>
       <h1>Transaction App</h1>
       <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
-      <TransactionTable transactions={filteredTransactions} />
+      <TransactionTable transactions={filteredTransactions} onDelete={handleDelete} />
       <AddTransactionForm
         newTransaction={newTransaction}
         onInputChange={handleInputChange}

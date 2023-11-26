@@ -1,9 +1,8 @@
 import React from 'react';
+import TransactionRow from './TransactionRow';
 
-function TransactionTable({ transactions }) {
+function TransactionTable({ transactions, onDelete }) {
   return (
-    //table to display the tranasactions
-    
     <table>
       <thead>
         <tr>
@@ -11,16 +10,12 @@ function TransactionTable({ transactions }) {
           <th>Description</th>
           <th>Category</th>
           <th>Amount</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
         {transactions.map((transaction) => (
-          <tr key={transaction.id}>
-            <td>{transaction.date}</td>
-            <td>{transaction.description}</td>
-            <td>{transaction.category}</td>
-            <td>{transaction.amount}</td>
-          </tr>
+          <TransactionRow key={transaction.id} transaction={transaction} onDelete={onDelete} />
         ))}
       </tbody>
     </table>

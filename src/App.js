@@ -13,17 +13,24 @@ function App() {
     amount: 0,
   });
 
-  const [searchTerm, setSearchTerm] = useState('');
 
+//spread the table and update with new transaction
   const addTransaction = () => {
     setTransactions([...transactions, newTransaction]);
     setNewTransaction({ date: '', description: '', category: '', amount: 0 });
   };
+
+    
+// useSatefor the searchbar
+const [searchTerm, setSearchTerm] = useState('');
+
 //filter description key using seaech input
   const filteredTransactions = transactions.filter(
     (transaction) =>
       transaction.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+
 
   return (
     <div>
